@@ -42,7 +42,7 @@ func InternalServerError(w http.ResponseWriter, r *http.Request) {
 }
 
 func NotFound(w http.ResponseWriter, r *http.Request) {
-	jsonBytes, err := json.Marshal(APIResponse("not found", http.StatusNotFound, "error", nil))
+	jsonBytes, err := json.Marshal(APIResponse("page not found", http.StatusNotFound, "error", nil))
 	if err != nil {
 		InternalServerError(w, r)
 		return
