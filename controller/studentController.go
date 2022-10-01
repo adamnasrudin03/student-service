@@ -138,7 +138,7 @@ func (h *studentController) GetAll(w http.ResponseWriter, r *http.Request) {
 func (h *studentController) GetByID(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(time.Now().Format("02-Jan-2006 15:04:05"), "Endpoint Hit: [Student] GetByID")
 	mutex := sync.RWMutex{}
-	getID := regexp.MustCompile(`^\/api/v1/students\/(\d+)$`)
+	getID := regexp.MustCompile(`^\/api/v1/student\/(\d+)$`)
 	matches := getID.FindStringSubmatch(r.URL.Path)
 	if len(matches) < 2 {
 		utils.NotFound(w, r)
@@ -166,7 +166,7 @@ func (h *studentController) GetByID(w http.ResponseWriter, r *http.Request) {
 func (h *studentController) UpdateByID(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(time.Now().Format("02-Jan-2006 15:04:05"), "Endpoint Hit: [Student] UpdateByID")
 	mutex := sync.RWMutex{}
-	getID := regexp.MustCompile(`^\/api/v1/students\/(\d+)$`)
+	getID := regexp.MustCompile(`^\/api/v1/student\/(\d+)$`)
 	matches := getID.FindStringSubmatch(r.URL.Path)
 	if len(matches) < 2 {
 		utils.NotFound(w, r)
@@ -209,7 +209,7 @@ func (h *studentController) UpdateByID(w http.ResponseWriter, r *http.Request) {
 func (h *studentController) DeleteByID(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(time.Now().Format("02-Jan-2006 15:04:05"), "Endpoint Hit: [Student] DeleteByID ")
 	mutex := sync.RWMutex{}
-	getID := regexp.MustCompile(`^\/api/v1/students\/(\d+)$`)
+	getID := regexp.MustCompile(`^\/api/v1/student\/(\d+)$`)
 	matches := getID.FindStringSubmatch(r.URL.Path)
 	if len(matches) < 2 {
 		utils.NotFound(w, r)

@@ -40,6 +40,14 @@ func main() {
 		switch r.Method {
 		case "GET":
 			studentController.GetAll(w, r)
+		default:
+			utils.NotFound(w, r)
+		}
+	})
+
+	mux.HandleFunc("/api/v1/student", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("content-type", "application/json")
+		switch r.Method {
 		case "POST":
 			studentController.Create(w, r)
 		default:
@@ -47,7 +55,7 @@ func main() {
 		}
 	})
 
-	mux.HandleFunc("/api/v1/students/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v1/student/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("content-type", "application/json")
 		switch r.Method {
 		case "GET":

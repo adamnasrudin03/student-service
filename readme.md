@@ -22,7 +22,7 @@ import the file in Postman located at ./Students.postman_collection.json
 ### GROUP: Student
 
 - [1] - Create
-- [POST] : {root.api}/api/v1/students
+- [POST] : {root.api}/api/v1/student
 
 ```json
 
@@ -102,7 +102,7 @@ Response:
 ```
 
 - [3] - Get By ID
-- [GET] : {root.api}/api/v1/students/{id}
+- [GET] : {root.api}/api/v1/student/{id}
 
 ```json
 
@@ -123,7 +123,7 @@ Response:
 ```
 
 - [4] - Delete By ID
-- [DELETE] : {root.api}/api/v1/students/{id}
+- [DELETE] : {root.api}/api/v1/student/{id}
 
 ```json
 
@@ -140,7 +140,7 @@ Response:
 ```
 
 - [5] - Update By ID
-- [PUT] : {root.api}/api/v1/students/{id}
+- [PUT] : {root.api}/api/v1/student/{id}
 
 ```json
 
