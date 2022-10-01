@@ -137,7 +137,7 @@ func (h *studentController) UpdateByID(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(reqBody, &studentReq)
 	studentReq.Name = strings.Trim(studentReq.Name, " ")
 
-	for _, student := range h.Store.Students {
+	for index, student := range h.Store.Students {
 		if student.Id == ID {
 
 			if strings.Compare(studentReq.Name, "") != 0 {
@@ -148,6 +148,7 @@ func (h *studentController) UpdateByID(w http.ResponseWriter, r *http.Request) {
 				student.Age = studentReq.Age
 			}
 
+			h.Store.Students[index] = student
 			mutex.Unlock()
 			utils.APIResponseSuccess(w, r, "success update student", http.StatusOK, "success", student)
 			return
