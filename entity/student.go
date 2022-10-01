@@ -1,7 +1,5 @@
 package entity
 
-import "sync"
-
 // student - Our struct for all students
 type Student struct {
 	Id   int64  `json:"id"`
@@ -11,5 +9,4 @@ type Student struct {
 
 type Datastore struct {
 	Students []Student
-	*sync.RWMutex
 }
