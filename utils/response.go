@@ -3,8 +3,15 @@ package utils
 import (
 	"encoding/json"
 	"net/http"
+
+	"github.com/adamnasrudin03/student-service/entity"
 )
 
+type ResponseList struct {
+	Meta Meta        `json:"meta"`
+	Data interface{} `json:"data"`
+	Page entity.Page `json:"page"`
+}
 type Response struct {
 	Meta Meta        `json:"meta"`
 	Data interface{} `json:"data"`
@@ -68,5 +75,26 @@ func APIResponseError(w http.ResponseWriter, r *http.Request, message string, co
 		return
 	}
 	w.WriteHeader(code)
+	w.Write(jsonBytes)
+}
+
+func APIResponseListSuccess(w http.ResponseWriter, r *http.Request, message string, httpCode int, status string, data interface{}, page entity.Page) {
+	meta := Meta{
+		Message: message,
+		Code:    httpCode,
+		Status:  status,
+	}
+	jsonResponse := ResponseList{
+		Meta: meta,
+		Data: data,
+		Page: page,
+	}
+
+	jsonBytes, err := json.Marshal(jsonResponse)
+	if err != nil {
+		InternalServerError(w, r)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
 	w.Write(jsonBytes)
 }

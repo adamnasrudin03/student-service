@@ -10,3 +10,10 @@ type Student struct {
 type Datastore struct {
 	Students []Student
 }
+
+type Page struct {
+	Size      int64 `json:"size"`
+	TotalData int64 `json:"total_data"`
+	TotalPage int64 `json:"total_page"`
+	Current   int64 `json:"current"`
+}

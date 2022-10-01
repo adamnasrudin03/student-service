@@ -74,18 +74,65 @@ func (h *studentController) Create(w http.ResponseWriter, r *http.Request) {
 
 func (h *studentController) GetAll(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(time.Now().Format("02-Jan-2006 15:04:05"), "Endpoint Hit: [Student] GetAll")
+	sizeQuery := 10
+	pageQuery := 1
+
+	sizeParam := r.URL.Query().Get("size")
+	if strings.Compare(sizeParam, "") != 0 {
+		value, err := strconv.Atoi(sizeParam)
+		if err != nil {
+			utils.APIResponseError(w, r, "query param size must be number", http.StatusBadRequest)
+			return
+		}
+		sizeQuery = value
+	}
+
+	pageParam := r.URL.Query().Get("page")
+	if strings.Compare(pageParam, "") != 0 {
+		value, err := strconv.Atoi(pageParam)
+		if err != nil {
+			utils.APIResponseError(w, r, "query param page must be number", http.StatusBadRequest)
+			return
+		}
+		pageQuery = value
+	}
+
 	mutex := sync.RWMutex{}
+
+	totalPage := int64(len(h.Store.Students)) / int64(sizeQuery)
+	if totalPage == 0 {
+		totalPage = 1
+	}
+
+	page := entity.Page{
+		Size:      int64(sizeQuery),
+		TotalData: int64(len(h.Store.Students)),
+		TotalPage: totalPage,
+		Current:   int64(pageQuery),
+	}
 
 	mutex.Lock()
 	data := h.Store.Students
 	if data == nil {
-		utils.APIResponseSuccess(w, r, "success get list students", http.StatusOK, "success", []entity.Student{})
+		utils.APIResponseListSuccess(w, r, "success get list students", http.StatusOK, "success", []entity.Student{}, page)
 		mutex.Unlock()
 		return
 	}
 
+	start := int((pageQuery - 1) * sizeQuery)
+	if start > len(h.Store.Students) {
+		start = len(h.Store.Students)
+	}
+
+	end := start + int(sizeQuery)
+	if end > len(h.Store.Students) {
+		end = len(h.Store.Students)
+	}
+
+	data = h.Store.Students[start:end]
+
 	mutex.Unlock()
-	utils.APIResponseSuccess(w, r, "success get list students", http.StatusOK, "success", data)
+	utils.APIResponseListSuccess(w, r, "success get list students", http.StatusOK, "success", data, page)
 }
 
 func (h *studentController) GetByID(w http.ResponseWriter, r *http.Request) {
